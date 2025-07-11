@@ -5,19 +5,6 @@ on:
       - main
 
 jobs:
-  undeploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Undeploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            cd /home/ubuntu/github-actions/
-            echo "Stopping app..."
-            pkill -f app.py || true
   deploy:
     runs-on: ubuntu-latest
     steps:
@@ -28,9 +15,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            set -e
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
+            echo "Killing any existing app.py processes..."
+            pkill -f '[p]ython3 app.py' || echo "No process found."
             echo "Pulling latest code..."
             git pull origin main
             echo "Activating virtual environment..."
@@ -38,4 +26,4 @@ jobs:
             echo "Installing requirements..."
             pip install -r requirements.txt
             echo "Running app..."
-            python3 app.py &> /dev/null &
+            setsid python3 app.py > output.log 2>&1 < /dev/null &
