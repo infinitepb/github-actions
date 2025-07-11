@@ -18,5 +18,5 @@ jobs:
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
             echo "Killing any existing app.py processes..."
-            kill -9 '[p]ython3 app.py'
+            pkill -f '[p]ython3 app.py'
 
