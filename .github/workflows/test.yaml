@@ -19,7 +19,7 @@ jobs:
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
             echo "Killing any existing app.py processes..."
-            pkill -f app.py || true
+            pkill -f '[p]ython3 app.py' || echo "Nothing to kill"
             echo "Pulling latest code..."
             git pull origin main
             echo "Activating virtual environment..."
