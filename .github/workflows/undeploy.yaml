@@ -1,6 +1,8 @@
 name: undeploy
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -16,4 +18,5 @@ jobs:
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
             echo "Killing any existing app.py processes..."
+            pkill -f '[p]ython3 app.py'
             
