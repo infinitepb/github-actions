@@ -16,7 +16,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
-            cd /home/pborde/test/
+            cd /home/ubuntu/
             echo "Deployment triggered manually at:" >> action.txt
             date >> action.txt
 
