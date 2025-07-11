@@ -15,8 +15,8 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            set -e
-            cd /home/ubuntu/
-            echo "Deployment triggered manually at:" >> action.txt
-            date >> action.txt
+            echo "Current directory: $(pwd)"
+            cd /home/ubuntu/github-actions/
+            echo "Killing any existing app.py processes..."
+            pkill -f '[p]ython3 app.py' || echo "No process found."
 

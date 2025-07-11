@@ -17,12 +17,12 @@ jobs:
           script: |
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
+            echo "Activating virtual environment..."
+            source venv/bin/activate
             echo "Killing any existing app.py processes..."
             pkill -f '[p]ython3 app.py' || echo "No process found."
             echo "Pulling latest code..."
             git pull origin main
-            echo "Activating virtual environment..."
-            source venv/bin/activate
             echo "Installing requirements..."
             pip install -r requirements.txt
             echo "Running app..."
