@@ -1,9 +1,9 @@
-name: deploy testing
+name: deploy
 on:
-  push:
-    branches:
-      - main
-
+  workflow_run:
+    workflows: ["undeploy"]      
+    types:
+      - completed
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -17,13 +17,11 @@ jobs:
           script: |
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
-            echo "Activating virtual environment..."
-            source venv/bin/activate
-            echo "Killing any existing app.py processes..."
-            pkill -f '[p]ython3 app.py' || echo "No process found."
             echo "Pulling latest code..."
             git pull origin main
+            echo "Activating virtual environment..."
+            source venv/bin/activate
             echo "Installing requirements..."
             pip install -r requirements.txt
             echo "Running app..."
-            setsid python3 app.py > output.log 2>&1 < /dev/null &
+            nohup python3 app.py > output.log 2>&1 &
