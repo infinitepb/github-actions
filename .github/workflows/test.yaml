@@ -18,6 +18,8 @@ jobs:
             set -e
             echo "Current directory: $(pwd)"
             cd /home/ubuntu/github-actions/
+            echo "Killing any existing app.py processes..."
+            pkill -f app.py || true
             echo "Pulling latest code..."
             git pull origin main
             echo "Activating virtual environment..."
